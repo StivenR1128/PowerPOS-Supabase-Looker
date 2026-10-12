@@ -1,0 +1,27 @@
+{
+  "fecha": "2026-10-12",
+  "web": "https://powerpos-ucaldas34265.vercel.app",
+  "repo": "https://github.com/StivenR1128/PowerPOS-Supabase-Looker",
+  "report": "https://datastudio.google.com/reporting/f1f02891-9021-4b2b-a489-519206715977/page/423AG",
+  "producto": {
+    "id": 22,
+    "nombre": "Producto demostración UCalDas",
+    "creadoPrecio": 9500,
+    "editadoPrecio": 10500,
+    "activoTrasBaja": false
+  },
+  "pedido": {
+    "id": 181,
+    "numero": "PED-1-17c59d9e-5af2-4ab0-88a6-25c84aa58cd5",
+    "total": 3000,
+    "estado": "PENDIENTE"
+  },
+  "looker": {
+    "totalTrasActualizar": 6607000,
+    "filtroBebidas": 388835.45,
+    "filtroBebidasOctubre1a11": 37555.56,
+    "filtrosComprobadosEnIframe": true,
+    "lineasYBarrasVisibles": false
+  },
+  "nota": "Evidencia de acciones reales en interfaz y SQL Editor. No sustituye la verificación visual pendiente de líneas y barras."
+}

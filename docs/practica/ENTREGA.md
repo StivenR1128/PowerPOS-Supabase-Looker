@@ -1,44 +1,38 @@
-# Estado real de entregables
+# Entrega y estado verificado — 12 octubre 2026
 
 | Entregable | Estado / enlace |
 |---|---|
-| Código en copia independiente | Preparado localmente |
-| README y ejecución local | Preparados |
+| Repositorio independiente | https://github.com/StivenR1128/PowerPOS-Supabase-Looker |
+| Aplicación desplegada | https://powerpos-ucaldas34265.vercel.app |
+| API desplegada | https://powerpos-api-ucaldas34265.vercel.app |
+| Supabase universitario | https://supabase.com/dashboard/project/ohtcxzjpdmadwdkbfodi |
+| Informe Looker | https://datastudio.google.com/reporting/f1f02891-9021-4b2b-a489-519206715977/page/423AG |
+| Video de capturas reales | [PowerPOS-demostracion.mp4](media/PowerPOS-demostracion.mp4) |
+| README y ejecución local | README.md |
 | DER | DER.md / DER.mmd: 26 tablas |
-| schema.sql / seed.sql | Preparados y probados en PostgreSQL embebido |
-| RLS y roles | security.sql probado localmente |
-| Vista BI y consulta | analytics.sql y looker-query.sql probados |
-| Iframe adaptable | Implementado en ambos dashboards |
-| Backend | Build correcto; 5 suites / 11 pruebas pasan |
-| Frontend | Build de producción webpack completo, TypeScript y generación de 21 páginas correctos |
-| Instancia Supabase | Creada y poblada en cuenta universitaria: https://supabase.com/dashboard/project/ohtcxzjpdmadwdkbfodi |
-| Persistencia web → Supabase | Pendiente: prueba en instancia real |
-| Informe Looker con 3 gráficos y 2 filtros | Pendiente: acceso al navegador conectado y creación del informe |
-| URL del repositorio nuevo | Pendiente |
-| URL del proyecto desplegado | Pendiente |
-| Parámetros reales de conexión | Host y ref confirmados; faltan credenciales privadas de aplicación/BI |
-| Video demostrativo | Pendiente tras verificar servicios reales |
+| SQL | database/schema.sql, seed.sql, security.sql, analytics.sql y verify.sql |
+| Persistencia desde interfaz | Creación, lectura, edición y baja de producto; venta 181 confirmada |
+| Filtros incrustados | Categoría y rango de fechas comprobados dentro de la aplicación |
+| Tres tipos de gráficos | KPI, serie temporal y barras configurados. KPI visible; líneas y barras siguen en blanco en Codex |
 
-## Evidencias disponibles
+## Pruebas en la nube
 
-`SQL-QA.json`: esquema y seed, 26 conteos, consistencia de pedidos, ingresos BI sin duplicaciones, RLS, permisos lector BI, denegación de rol público, CRUD del backend y rechazo de seed sobre datos existentes. Motor usado: PGlite, PostgreSQL embebido, no instancia Supabase.
+Migración inicial: 26 tablas con RLS, 180 pedidos, 360 detalles, 230 movimientos financieros y 720 movimientos de inventario. Cero pedidos inconsistentes; diferencia de ingresos BI 0.00. Ver SUPABASE-QA.txt. El seed contiene 60 días y distribuciones asimétricas, no borra datos existentes.
 
-La conexión de Supabase que existía al iniciar la adaptación pertenece a otra cuenta. No se crearon ni modificaron proyectos en esa cuenta. El repositorio original no recibió cambios ni pushes.
+Desde la interfaz publicada se creó el producto 22, Producto demostración UCalDas, a 9500; se editó a 10500; se dio de baja. Supabase confirmó precio 10500.00 y activo=false. La baja conserva el registro.
 
-La sesión de navegador se verificó con `jose.rodas34265@ucaldas.edu.co`, organización `StivenR1128's Org`. Se creó el proyecto `PowerPOS-Supabase-Looker` (`ohtcxzjpdmadwdkbfodi`, us-east-2) y se ejecutaron schema, seed, security y analytics. Ver `SUPABASE-QA.txt`: 26 tablas, 180 pedidos, 360 detalles, 230 movimientos financieros, 720 movimientos de inventario, 26 tablas con RLS, 0 pedidos inconsistentes y diferencia de ingresos BI 0.00. Esto confirma la migración en la nube; todavía no confirma el flujo desde la interfaz web.
+Se creó desde el POS el pedido 181, número PED-1-17c59d9e-5af2-4ab0-88a6-25c84aa58cd5, una unidad de Agua, total 3000.00, estado PENDIENTE. Se confirmó en Pedidos recientes y en SQL Editor. Looker actualizado pasó de 6604000 a 6607000.
 
-En este entorno de Windows, los compiladores necesitaron un ajuste temporal de resolución de rutas para completar la verificación. Ese ajuste queda en archivos de trabajo fuera del entregable; el proyecto conserva los comandos estándar de Node/Prisma/Next.js.
+Prueba dentro del iframe: categoría Bebidas → 388835.45; Bebidas + 1 a 11 octubre de 2026 → 37555.56. Ambos controles modifican el KPI. El informe usa el conector PostgreSQL nativo, TLS y un rol de lectura limitado a reporting.ventas.
 
-## Checklist para cerrar la entrega
+## Limitación pendiente
 
-- [x] Acceder a Supabase con el correo elegido y crear proyecto nuevo.
-- [x] Ejecutar SQL y verificar conteos e integridad en Supabase.
-- [ ] Revisar los asesores de Supabase tras la migración.
-- [ ] Activar credenciales privadas y conexión del backend.
-- [ ] Verificar creación, lectura, edición y baja desde la interfaz con evidencia de persistencia.
-- [ ] Crear fuente PostgreSQL y el informe real de Looker.
-- [ ] Probar gráficos y al menos dos filtros dentro del iframe.
-- [ ] Publicar repositorio nuevo y servicios web/API.
-- [ ] Registrar enlaces reales, accesos y video.
+Los componentes de líneas y barras están creados en el informe, pero sus marcos de representación aparecen en blanco en el navegador de Codex. El KPI y ambos filtros sí cargan. No se presenta la configuración como prueba de que los tres gráficos se visualizan correctamente. Esta parte debe resolverse antes de considerar cumplida toda la práctica.
 
-Este checklist distingue lo implementado de lo pendiente; no es evidencia de una entrega completa.
+## Validación y operación
+
+Backend compilado; 5 suites y 11 pruebas pasan. Frontend: build webpack de producción, TypeScript y 21 páginas correctos. SQL-QA.json corresponde a PostgreSQL embebido; SUPABASE-QA.txt y las pruebas de interfaz corresponden a la instancia real.
+
+Vercel usa el pooler transaccional 6543, pgbouncer=true y connection_limit=1 para evitar agotar sesiones. Looker usa session pooler 5432. El cierre automático de caja queda desactivado por defecto; CIERRE_AUTOMATICO_CAJA=true lo habilita en un servidor persistente con horario comercial adecuado. Los logos se guardan en PostgreSQL para sobrevivir al entorno de Vercel.
+
+Las contraseñas de base de datos no están en GitHub ni en el video. Los parámetros públicos están en CONEXIONES.md; los secretos se entregan en un archivo privado separado del repositorio. El repositorio original permanece intacto.

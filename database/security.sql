@@ -8,6 +8,13 @@ DO $$ BEGIN
     CREATE ROLE powerpos_looker NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOBYPASSRLS;
   END IF;
 END $$;
+-- El asistente de proyectos puede crear este trigger con SECURITY DEFINER.
+-- Su ejecución no necesita quedar disponible para usuarios de la Data API.
+DO $$ BEGIN
+  IF to_regprocedure('public.rls_auto_enable()') IS NOT NULL THEN
+    REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM PUBLIC, anon, authenticated;
+  END IF;
+END $$;
 GRANT USAGE ON SCHEMA public TO powerpos_app;
 DO $$
 DECLARE t text;

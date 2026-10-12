@@ -1,44 +1,26 @@
-# Publicación independiente
+# Despliegue real e independiente
 
-## Repositorio
+Repositorio: https://github.com/StivenR1128/PowerPOS-Supabase-Looker
 
-Crear un repositorio vacío NUEVO, por ejemplo `PowerPOS-Supabase-Looker`. No inicializarlo con README si se va a subir esta copia. En la carpeta de la copia:
+Frontend: https://powerpos-ucaldas34265.vercel.app
 
-Si descargaste el ZIP, este excluye `.git`: primero ejecutar `git init -b practica-supabase-looker`. La copia local de trabajo sí conserva su rama y el remoto de lectura bloqueado.
+API: https://powerpos-api-ucaldas34265.vercel.app
 
-```powershell
-git remote -v
-git status
-git add .
-git commit -m "Adaptación académica a Supabase y Looker Studio"
-git remote add origin https://github.com/TU_USUARIO/PowerPOS-Supabase-Looker.git
-git push -u origin practica-supabase-looker
-```
+Se crearon dos proyectos Vercel en la cuenta universitaria, sin seleccionar un plan de pago. Ambos parten de este repositorio; el original no se modificó.
 
-No ejecutar el ejemplo sin sustituir TU_USUARIO. Revisar los archivos antes del commit: excluir `.env`, `node_modules`, compilados, uploads y secretos. El remoto `source-original` sirve para consultar la procedencia y tiene push bloqueado.
+| Proyecto | Raíz | Framework |
+|---|---|---|
+| powerpos-api-ucaldas34265 | api | NestJS, soporte nativo Vercel |
+| powerpos-ucaldas34265 | web | Next.js |
 
-## Backend y frontend
+Backend: DATABASE_URL privada con pooler transaccional 6543, TLS, pgbouncer=true y connection_limit=1. JWT_SECRET privado y CORS_ORIGINS limitado a la aplicación y localhost de desarrollo.
 
-Desplegar como dos servicios Node compatibles; pueden vivir en el mismo proveedor o separados. No se ha elegido un proveedor de pago ni aceptado cargos.
+Frontend: NEXT_PUBLIC_API_URL y NEXT_PUBLIC_LOOKER_EMBED_URL configurados antes del build. Estos valores son públicos; ninguna contraseña PostgreSQL llega al navegador.
 
-| Servicio | Directorio raíz | Build | Inicio |
-|---|---|---|---|
-| API | api | `npm ci && npx prisma generate && npm run build` | `npm run start:prod` |
-| Web | web | `npm ci && npm run build -- --webpack` | `npm run start` |
+Los logos se guardan en PostgreSQL, con límite de 2 MB y validación del tipo de imagen. No dependen de un disco de Vercel.
 
-API: configurar `DATABASE_URL`, `JWT_SECRET`, `PORT` del proveedor y `CORS_ORIGINS=https://URL_REAL_WEB`. Web: configurar `NEXT_PUBLIC_API_URL=https://URL_REAL_API` y `NEXT_PUBLIC_LOOKER_EMBED_URL` real **antes de compilar**. El proveedor debe permitir el puerto saliente del pooler y TLS. La API debe ser un servidor persistente compatible con la aplicación, no una conversión improvisada a funciones serverless.
+El cierre automático de caja está desactivado por defecto para permitir demostraciones a cualquier hora. CIERRE_AUTOMATICO_CAJA=true lo habilita; requiere un servidor persistente y revisar el horario comercial. Las tareas cron y los eventos persistentes del proyecto original no deben suponerse disponibles continuamente en funciones serverless. No se usan para demostrar la persistencia HTTP exigida.
 
-Los uploads del sistema original se guardan en disco: usar volumen persistente si se van a demostrar imágenes cargadas. La demo SQL no necesita imágenes ni servicios opcionales de SMS/correo. No activar esos servicios sin configurarlos.
+Cuenta ficticia: admin@powerpos.demo / Practica2026*. Abrir caja desde Dashboard con un monto inicial antes de registrar una venta. La base de caja no se cuenta como ingreso de ventas.
 
-## Prueba después del despliegue
-
-1. Abrir frontend HTTPS e iniciar sesión con la cuenta ficticia.
-2. Registrar producto y editarlo; confirmar en Supabase.
-3. Eliminar el producto desde la UI y verificar su baja lógica (`activo=false`), según la lógica original.
-4. Registrar una venta desde POS con caja abierta; confirmar pedido, detalles e ingreso financiero.
-5. Recargar la página: los datos deben seguir presentes.
-6. Abrir dashboard y usar los filtros del informe real.
-7. Probar ancho móvil y que no haya desbordamiento horizontal de la página.
-8. Entrar con la empresa aislada y comprobar que no accede al catálogo o pedidos de la empresa demo. El informe académico BI está restringido a la empresa demo: no se debe presentarlo como panel multiempresa.
-
-Registrar URLs y evidencias en ENTREGA.md solamente después de verificar estos pasos.
+Ver ENTREGA.md y VERIFICACION-WEB.json para las pruebas y la limitación pendiente de representación de líneas y barras en Looker.
