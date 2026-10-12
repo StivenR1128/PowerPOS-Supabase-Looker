@@ -1,7 +1,6 @@
-import { Controller, Get, Patch, Post, Body, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Body, UseGuards, Request, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { memoryStorage } from 'multer';
 import { EmpresaService } from './empresa.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
@@ -26,13 +25,7 @@ export class EmpresaController {
   @Post('logo')
   @Roles('ADMIN_EMPRESA')
   @UseInterceptors(FileInterceptor('logo', {
-    storage: diskStorage({
-      destination: './uploads/logos',
-      filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, `logo-${uniqueSuffix}${extname(file.originalname)}`);
-      },
-    }),
+    storage: memoryStorage(),
     fileFilter: (req, file, cb) => {
       if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
         cb(new Error('Solo se permiten imágenes'), false);
@@ -43,8 +36,9 @@ export class EmpresaController {
     limits: { fileSize: 2 * 1024 * 1024 },
   }))
   async subirLogo(@UploadedFile() file: Express.Multer.File, @Request() req: any) {
-    const baseUrl = (process.env.APP_URL || 'http://localhost:3000').replace(/\/$/, '');
-    const logoUrl = `${baseUrl}/uploads/logos/${file.filename}`;
+    if (!file?.buffer) throw new BadRequestException('Selecciona una imagen para el logo');
+    // Vercel no ofrece disco persistente: la URL de datos se guarda en PostgreSQL.
+    const logoUrl = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
     await this.empresaService.actualizarLogo(req.user.empresaId, logoUrl);
     return { logoUrl };
   }
