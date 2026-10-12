@@ -21,7 +21,39 @@
     "filtroBebidas": 388835.45,
     "filtroBebidasOctubre1a11": 37555.56,
     "filtrosComprobadosEnIframe": true,
-    "lineasYBarrasVisibles": false
+    "lineasYBarrasVisibles": false,
+    "redisenio": {
+      "paginas": [
+        "Resumen ejecutivo",
+        "Tendencia y categorías"
+      ],
+      "indicadores": [
+        "Ingresos netos (COP)",
+        "Unidades vendidas",
+        "Pedidos registrados"
+      ],
+      "controlesNivelInforme": true,
+      "resumenVisible": true,
+      "detalleCargaIrregularEnCodex": true,
+      "bebidas": {
+        "ingresos": 388835.45,
+        "unidades": 73,
+        "pedidos": 67
+      },
+      "bebidasOctubre1a11": {
+        "ingresos": 37555.56,
+        "unidades": 8,
+        "pedidos": 9
+      }
+    }
   },
-  "nota": "Evidencia de acciones reales en interfaz y SQL Editor. No sustituye la verificación visual pendiente de líneas y barras."
+  "nota": "Evidencia de acciones reales en interfaz y SQL Editor. No sustituye la verificación visual pendiente de líneas y barras.",
+  "video": {
+    "archivo": "docs/practica/media/PowerPOS-demostracion-v2.mp4",
+    "duracionSegundos": 257.79,
+    "resolucion": "1920x1080",
+    "audio": "AAC 48 kHz stereo",
+    "narracion": "sintética en español",
+    "fuente": "capturas reales"
+  }
 }

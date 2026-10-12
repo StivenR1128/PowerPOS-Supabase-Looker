@@ -7,13 +7,21 @@
 | API desplegada | https://powerpos-api-ucaldas34265.vercel.app |
 | Supabase universitario | https://supabase.com/dashboard/project/ohtcxzjpdmadwdkbfodi |
 | Informe Looker | https://datastudio.google.com/reporting/f1f02891-9021-4b2b-a489-519206715977/page/423AG |
-| Video de capturas reales | [PowerPOS-demostracion.mp4](media/PowerPOS-demostracion.mp4) |
+| Video de capturas reales | [PowerPOS-demostracion-v2.mp4](media/PowerPOS-demostracion-v2.mp4) |
 | README y ejecución local | README.md |
 | DER | DER.md / DER.mmd: 26 tablas |
 | SQL | database/schema.sql, seed.sql, security.sql, analytics.sql y verify.sql |
 | Persistencia desde interfaz | Creación, lectura, edición y baja de producto; venta 181 confirmada |
 | Filtros incrustados | Categoría y rango de fechas comprobados dentro de la aplicación |
 | Tres tipos de gráficos | KPI, serie temporal y barras configurados. KPI visible; líneas y barras siguen en blanco en Codex |
+
+## Rediseño y video v2
+
+El Resumen ejecutivo tiene identidad de PowerPOS: fondo azul oscuro, acentos naranjas, tres tarjetas alineadas, filtros legibles, mapa de calor de días con mayores ingresos y barras comparativas por categoría. La página Tendencia y categorías conserva la serie temporal y las barras nativas, separadas de las tarjetas. Encabezado, indicadores y controles son de nivel de informe y aparecen en ambas páginas.
+
+Se repitió la prueba dentro del iframe: Bebidas → ingresos 388835.45, unidades vendidas 73 y pedidos registrados 67. Bebidas + 1 a 11 octubre → ingresos 37555.56, unidades vendidas 8 y pedidos registrados 9. Los pedidos se cuentan con COUNT DISTINCT; incluyen estados anulados cuando el pedido pertenece a la selección. Los ingresos y unidades vendidas excluyen los importes anulados mediante la vista.
+
+Video v2: 4:18, 1920 × 1080, H.264 / AAC, narración sintética en español y 11 capítulos con capturas reales. El video utiliza pruebas de persistencia ya registradas y nuevas capturas del rediseño y los filtros. No es una grabación continua ni muestra gráficos inventados.
 
 ## Pruebas en la nube
 
@@ -27,7 +35,7 @@ Prueba dentro del iframe: categoría Bebidas → 388835.45; Bebidas + 1 a 11 oct
 
 ## Limitación pendiente
 
-Los componentes de líneas y barras están creados en el informe, pero sus marcos de representación aparecen en blanco en el navegador de Codex. El KPI y ambos filtros sí cargan. No se presenta la configuración como prueba de que los tres gráficos se visualizan correctamente. Esta parte debe resolverse antes de considerar cumplida toda la práctica.
+Los componentes nativos de líneas y barras están en la página Tendencia y categorías. Su carga es irregular en Codex: se observaron visualizaciones al iniciar, pero la comprobación final de esa página vuelve a mostrar sus marcos en blanco. El resumen ejecutivo, sus tres indicadores, sus desgloses y ambos filtros sí cargan. No se presenta la configuración como prueba de que los tres gráficos se visualizan correctamente. Esta parte debe resolverse antes de considerar cumplida toda la práctica.
 
 ## Validación y operación
 

@@ -4,9 +4,9 @@ Copia académica independiente de [PowerPos-Pioneers](https://github.com/StivenR
 
 ## Estado de la entrega
 
-[Aplicación publicada](https://powerpos-ucaldas34265.vercel.app) · [Informe de Looker](https://datastudio.google.com/reporting/f1f02891-9021-4b2b-a489-519206715977/page/423AG) · [Video demostrativo](https://github.com/StivenR1128/PowerPOS-Supabase-Looker/blob/main/docs/practica/media/PowerPOS-demostracion.mp4).
+[Aplicación publicada](https://powerpos-ucaldas34265.vercel.app) · [Informe de Looker](https://datastudio.google.com/reporting/f1f02891-9021-4b2b-a489-519206715977/page/423AG) · [Video demostrativo](https://github.com/StivenR1128/PowerPOS-Supabase-Looker/blob/main/docs/practica/media/PowerPOS-demostracion-v2.mp4).
 
-La base universitaria tiene 26 tablas y datos iniciales. Se verificaron creación, lectura, edición y baja desde la interfaz, además de una venta real de prueba (pedido 181). Los dos filtros funcionan dentro del iframe. **Pendiente:** en el navegador de Codex, los gráficos de líneas y barras configurados en Looker aparecen en blanco; aún no se confirma su visualización. Ver [estado y evidencias](docs/practica/ENTREGA.md).
+La base universitaria tiene 26 tablas y datos iniciales. Se verificaron creación, lectura, edición y baja desde la interfaz, además de una venta real de prueba (pedido 181). El informe tiene las páginas Resumen ejecutivo y Tendencia y categorías, con tres indicadores comunes y dos filtros a nivel de informe. Los dos filtros funcionan dentro del iframe. El resumen añade comparaciones por categoría y días de mayores ingresos. **Pendiente:** los gráficos nativos de líneas y barras de la página Tendencia y categorías presentan carga irregular en Codex; el resumen ejecutivo y sus desgloses están comprobados. Ver [estado y evidencias](docs/practica/ENTREGA.md).
 
 Acceso de demostración: `admin@powerpos.demo` / `Practica2026*`. Son datos ficticios exclusivos de esta copia académica.
 
