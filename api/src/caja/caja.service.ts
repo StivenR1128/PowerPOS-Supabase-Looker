@@ -70,6 +70,9 @@ export class CajaService {
 
   @Cron('*/5 * * * *')
   async cerrarCajaAutomaticaPorHorario() {
+    // La práctica permite demostrar ventas a cualquier hora. Activar únicamente
+    // en un servidor persistente con el horario operativo configurado.
+    if (process.env.CIERRE_AUTOMATICO_CAJA !== 'true') return;
     const cajasAbiertas = await this.prisma.caja.findMany({
       where: { estado: 'ABIERTA' },
       include: {
