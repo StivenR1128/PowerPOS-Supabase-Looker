@@ -1,0 +1,15 @@
+{
+  "engine": "PGlite PostgreSQL embebido (no es Supabase)",
+  "tablesVerified": 26,
+  "checks": [
+    "schema",
+    "seed",
+    "RLS",
+    "BI sin duplicación de ingresos",
+    "BI deniega usuarios/escritura",
+    "anon denegado",
+    "CRUD rol backend",
+    "seed rechaza base poblada"
+  ],
+  "result": "PASS"
+}

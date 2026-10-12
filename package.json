@@ -1,0 +1,17 @@
+{
+  "name": "powerpos-supabase-looker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build --prefix api && npm run build --prefix web",
+    "test": "npm test --prefix api -- --runInBand",
+    "seed:generate": "node scripts/generate-seed.mjs",
+    "schema:generate": "node scripts/generate-schema.mjs",
+    "der:generate": "node scripts/generate-der.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}

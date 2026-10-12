@@ -1,0 +1,110 @@
+- link "Skip to content":
+  - /url: "#main"
+  - generic: Skip to content
+- navigation:
+  - button "S PowerPOS-Supabase-Looker main":
+    - generic: S
+    - generic: PowerPOS-Supabase-Looker
+    - generic: main
+  - button "Connect":
+  - button "StivenR1128":
+    - img "StivenR1128"
+  - button "Open menu":
+- navigation "Floating toolbar":
+  - button:
+  - button "Help":
+    - generic: Help
+  - button "Advisor Center":
+    - generic: Advisor Center
+  - button "SQL Editor":
+    - generic: SQL Editor
+  - button "AI Assistant":
+    - generic: AI Assistant
+- main:
+  - main:
+    - tablist:
+      - tab "Untitled query" [selected]:
+        - generic: Untitled query
+      - button "Close tab":
+      - separator
+      - button:
+    - status
+    - generic: Unsaved edits
+    - button "More actions":
+    - 'button "Query source: Database"':
+      - generic: Database
+    - button "Save":
+      - generic: Save
+      - generic: Ctrl S
+    - button "Run":
+      - generic: Run
+      - generic: Ctrl ↵
+    - code:
+      - generic: "'diferencia_ingresos_bi', round(abs((SELECT sum(ingreso_neto) FROM"
+      - generic: reporting.ventas)-(SELECT sum(total) FROM public.pedidos WHERE
+      - generic: estado::text<>'ANULADO')),2)::text UNION ALL SELECT
+      - generic: "'looker_accede_usuarios',has_table_privilege('powerpos_looker','public."
+      - generic: usuarios','SELECT')::text UNION ALL SELECT 'looker_accede_vista',
+      - generic: has_table_privilege('powerpos_looker','reporting.ventas','SELECT')::text;
+      - textbox "Editor content" [active]: btotal-(SELECT sum(d.subtotal) FROM public.detalle_pedidos d WHERE d."pedidoId"=p.id))>0.01 UNION ALL SELECT 'diferencia_ingresos_bi', round(abs((SELECT sum(ingreso_neto) FROM reporting.ventas)-(SELECT sum(total) FROM public.pedidos WHERE estado::text<>'ANULADO')),2)::text UNION ALL SELECT 'looker_accede_usuarios',has_table_privilege('powerpos_looker','public.usuarios','SELECT')::text UNION ALL SELECT 'looker_accede_vista',has_table_privilege('powerpos_looker','reporting.ventas','SELECT')::text;
+    - separator:
+    - tablist:
+      - tab "Results" [selected]:
+        - generic: Results
+      - tab "Chart":
+        - generic: Chart
+      - button "10 rows(Limited to only 100 rows)":
+        - paragraph:
+          - generic: 10 rows
+          - text: (Limited to only 100 rows)
+      - button "Export":
+        - generic: Export
+    - grid:
+      - row "comprobacion resultado":
+        - columnheader "comprobacion":
+          - generic: comprobacion
+        - columnheader "resultado":
+          - generic: resultado
+      - row "tablas_publicas 26":
+        - gridcell "tablas_publicas":
+          - generic: tablas_publicas
+        - gridcell "26":
+          - generic: "26"
+      - row "pedidos 180":
+        - gridcell "pedidos":
+          - generic: pedidos
+        - gridcell "180":
+          - generic: "180"
+      - row "detalle_pedidos 360":
+        - gridcell "detalle_pedidos":
+          - generic: detalle_pedidos
+        - gridcell "360":
+          - generic: "360"
+      - row "movimientos_financieros 230":
+        - gridcell "movimientos_financieros":
+          - generic: movimientos_financieros
+        - gridcell "230":
+          - generic: "230"
+      - row "movimientos_inventario 720":
+        - gridcell "movimientos_inventario":
+          - generic: movimientos_inventario
+        - gridcell "720":
+          - generic: "720"
+      - row "tablas_con_rls 26":
+        - gridcell "tablas_con_rls":
+          - generic: tablas_con_rls
+        - gridcell "26":
+          - generic: "26"
+      - row "pedidos_inconsistentes 0":
+        - gridcell "pedidos_inconsistentes":
+          - generic: pedidos_inconsistentes
+        - gridcell "0":
+          - generic: "0"
+      - row "diferencia_ingresos_bi 0.00":
+        - gridcell "diferencia_ingresos_bi":
+          - generic: diferencia_ingresos_bi
+        - gridcell "0.00":
+          - generic: "0.00"
+- alert: SQL Editor | PowerPOS-Supabase-Looker | StivenR1128's Org | Supabase
+- alert
+- alert

@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+api/uploads/
+*.zip
+.next/
+dist/
+!landing/dist/
+!landing/dist/**
+backups/landing-git-*/
+powerpos-data/
+*.log
+backups/*.dump

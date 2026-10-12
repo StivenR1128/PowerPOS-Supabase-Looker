@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const result = spawnSync(process.execPath, [path.join(root, 'api/node_modules/prisma/build/index.js'), 'migrate', 'diff', '--from-empty', '--to-schema-datamodel', path.join(root, 'api/prisma/schema.prisma'), '--script'], { cwd: root, encoding: 'utf8' });
+if (result.status !== 0) throw new Error(result.stderr || result.stdout);
+const extra = fs.readFileSync(path.join(root, 'database/constraints.sql'), 'utf8').replace(/^BEGIN;\r?\n|^COMMIT;\r?\n?/gm, '');
+fs.writeFileSync(path.join(root, 'database/schema.sql'), '-- Ejecutar una vez en la instancia NUEVA y vacía.\nBEGIN;\nSET LOCAL search_path = public;\n' + result.stdout + '\n' + extra + '\nCOMMIT;\n');
+console.log('schema.sql generado desde Prisma con restricciones adicionales');

@@ -1,0 +1,357 @@
+# Diagrama entidad-relación
+
+Modelo completo: 26 tablas. Las relaciones y claves se generan desde schema.prisma.
+
+```mermaid
+erDiagram
+  empresas {
+    Int id PK
+    String nombre
+    String nit
+    String email
+    String telefono
+    String direccion
+    String logo
+    Boolean activo
+    Json permisos
+    Boolean facturacionElectronicaHabilitada
+    Boolean consumoEmpleadosHabilitado
+    String tiendaSlug
+    Json tiendaConfig
+    Json fidelizacionConfig
+    DateTime creadoEn
+    DateTime actualizadoEn
+  }
+  sucursales {
+    Int id PK
+    Int empresaId FK
+    String nombre
+    String direccion
+    String telefono
+    Boolean activo
+    DateTime creadoEn
+  }
+  usuarios {
+    Int id PK
+    Int empresaId FK
+    Int sucursalId FK
+    String nombre
+    String email
+    String password
+    Json permisos
+    Boolean activo
+    DateTime creadoEn
+    DateTime actualizadoEn
+  }
+  categorias {
+    Int id PK
+    Int empresaId FK
+    Int parentId FK
+    String nombre
+    String descripcion
+    String icono
+    String color
+    Boolean activo
+    DateTime creadoEn
+  }
+  productos {
+    Int id PK
+    Int empresaId FK
+    Int categoriaId FK
+    String nombre
+    String descripcion
+    Decimal precio
+    Decimal costo
+    String codigoBarras
+    Boolean controlaStock
+    Int stockActual
+    Int stockMinimo
+    String imagen
+    Boolean disponible
+    Boolean aceptaAdicionales
+    Boolean activo
+    DateTime creadoEn
+    DateTime actualizadoEn
+  }
+  ingredientes {
+    Int id PK
+    Int empresaId FK
+    String nombre
+    String unidad
+    String unidadCompra
+    Decimal factorConversion
+    Decimal costoUnitario
+    Decimal stock
+    Decimal stockMinimo
+    Boolean activo
+    DateTime creadoEn
+  }
+  movimientos_inventario {
+    Int id PK
+    Int ingredienteId FK
+    Int productoId FK
+    Int usuarioId FK
+    String tipo
+    Decimal cantidadMovida
+    String unidadCompra
+    Decimal factorAplicado
+    Decimal stockAnterior
+    Decimal stockNuevo
+    String descripcion
+    DateTime creadoEn
+  }
+  producto_ingredientes {
+    Int id PK
+    Int productoId FK
+    Int ingredienteId FK
+    Decimal cantidad
+  }
+  preparaciones {
+    Int id PK
+    Int empresaId FK
+    String nombre
+    String descripcion
+    String unidad
+    Boolean activo
+    DateTime creadoEn
+  }
+  preparacion_ingredientes {
+    Int id PK
+    Int preparacionId FK
+    Int ingredienteId FK
+    Decimal cantidad
+    String unidad
+    String observacion
+    DateTime creadoEn
+  }
+  lotes_preparacion {
+    Int id PK
+    Int empresaId FK
+    Int preparacionId FK
+    Int usuarioId FK
+    DateTime fecha
+    String loteNumero
+    Decimal cantidadProducida
+    Decimal pesoTotal
+    Decimal pesoPorBolsa
+    Decimal porcionesPorBolsa
+    Decimal porcionesTotales
+    String observacion
+    DateTime creadoEn
+  }
+  lote_preparacion_ingredientes {
+    Int id PK
+    Int loteId FK
+    Int ingredienteId FK
+    Decimal cantidadUsada
+    String unidad
+    String observacion
+    DateTime creadoEn
+  }
+  producto_preparaciones {
+    Int id PK
+    Int productoId FK
+    Int preparacionId FK
+    Decimal cantidad
+    String unidad
+    DateTime createdAt
+  }
+  adicionales {
+    Int id PK
+    Int empresaId FK
+    String nombre
+    Decimal precio
+    Int ingredienteId FK
+    Decimal cantidad
+    Boolean disponible
+    Boolean activo
+    DateTime creadoEn
+    DateTime actualizadoEn
+  }
+  producto_adicionales {
+    Int id PK
+    Int productoId FK
+    Int adicionalId FK
+  }
+  clientes {
+    Int id PK
+    Int empresaId FK
+    String nombre
+    String documento
+    String telefono
+    String email
+    String direccion
+    DateTime fechaNacimiento
+    Int puntos
+    Boolean activo
+    DateTime creadoEn
+  }
+  pedidos {
+    Int id PK
+    Int sucursalId FK
+    Int usuarioId FK
+    Int clienteId FK
+    Int cajaId FK
+    String numero
+    Decimal subtotal
+    Decimal descuento
+    Decimal total
+    String observacion
+    DateTime creadoEn
+    DateTime actualizadoEn
+    Int puntosGanados
+    Int puntosCanjeados
+    Decimal valorPuntoAplicado
+    Decimal costoDomicilio
+  }
+  detalle_pedidos {
+    Int id PK
+    Int pedidoId FK
+    Int productoId FK
+    Int cantidad
+    Decimal precioUnitario
+    Decimal subtotal
+    String observacion
+  }
+  detalle_pedido_adicionales {
+    Int id PK
+    Int detallePedidoId FK
+    Int adicionalId FK
+    String nombre
+    Decimal precio
+    Int cantidad
+    Decimal subtotal
+  }
+  cajas {
+    Int id PK
+    Int sucursalId FK
+    Int usuarioId FK
+    Decimal montoInicial
+    Decimal montoFinal
+    Decimal diferencia
+    DateTime abiertaEn
+    DateTime cerradaEn
+  }
+  eventos_caja {
+    Int id PK
+    Int cajaId FK
+    Int usuarioId FK
+    String descripcion
+    Boolean esAlerta
+    DateTime creadoEn
+  }
+  movimientos_financieros {
+    Int id PK
+    Int empresaId FK
+    Int sucursalId FK
+    Int usuarioId FK
+    String descripcion
+    Decimal monto
+    DateTime fecha
+    Int pedidoId FK
+    String comprobante
+    DateTime creadoEn
+  }
+  consumos_empleados {
+    Int id PK
+    Int empresaId FK
+    Int sucursalId FK
+    Int usuarioId FK
+    String empleadoNombre
+    String observacion
+    DateTime creadoEn
+  }
+  consumo_empleado_items {
+    Int id PK
+    Int consumoEmpleadoId FK
+    Int productoId FK
+    Int cantidad
+    Decimal precioReferencia
+  }
+  auditorias {
+    Int id PK
+    Int empresaId FK
+    Int usuarioId FK
+    String accion
+    String entidad
+    Int entidadId
+    Json detalle
+    DateTime creadoEn
+  }
+  pedidos_web {
+    String id PK
+    Int empresaId FK
+    Int sucursalId FK
+    String clave
+    String estado
+    String nombre
+    String telefono
+    String direccion
+    String zona
+    String observacion
+    Json items
+    Decimal subtotal
+    Decimal costoDomicilio
+    Decimal total
+    Int pedidoId FK
+    Int repartidorId FK
+    String motivo
+    DateTime creadoEn
+    DateTime actualizadoEn
+  }
+  empresas ||--o{ sucursales : "empresaId"
+  empresas |o--o{ usuarios : "empresaId"
+  sucursales |o--o{ usuarios : "sucursalId"
+  empresas ||--o{ categorias : "empresaId"
+  categorias |o--o{ categorias : "parentId"
+  empresas ||--o{ productos : "empresaId"
+  categorias ||--o{ productos : "categoriaId"
+  empresas ||--o{ ingredientes : "empresaId"
+  ingredientes |o--o{ movimientos_inventario : "ingredienteId"
+  productos |o--o{ movimientos_inventario : "productoId"
+  usuarios ||--o{ movimientos_inventario : "usuarioId"
+  productos ||--o{ producto_ingredientes : "productoId"
+  ingredientes ||--o{ producto_ingredientes : "ingredienteId"
+  empresas ||--o{ preparaciones : "empresaId"
+  preparaciones ||--o{ preparacion_ingredientes : "preparacionId"
+  ingredientes ||--o{ preparacion_ingredientes : "ingredienteId"
+  empresas ||--o{ lotes_preparacion : "empresaId"
+  preparaciones ||--o{ lotes_preparacion : "preparacionId"
+  usuarios ||--o{ lotes_preparacion : "usuarioId"
+  lotes_preparacion ||--o{ lote_preparacion_ingredientes : "loteId"
+  ingredientes ||--o{ lote_preparacion_ingredientes : "ingredienteId"
+  productos ||--o{ producto_preparaciones : "productoId"
+  preparaciones ||--o{ producto_preparaciones : "preparacionId"
+  empresas ||--o{ adicionales : "empresaId"
+  ingredientes |o--o{ adicionales : "ingredienteId"
+  productos ||--o{ producto_adicionales : "productoId"
+  adicionales ||--o{ producto_adicionales : "adicionalId"
+  empresas ||--o{ clientes : "empresaId"
+  sucursales ||--o{ pedidos : "sucursalId"
+  usuarios ||--o{ pedidos : "usuarioId"
+  clientes |o--o{ pedidos : "clienteId"
+  cajas |o--o{ pedidos : "cajaId"
+  pedidos ||--o{ detalle_pedidos : "pedidoId"
+  productos ||--o{ detalle_pedidos : "productoId"
+  detalle_pedidos ||--o{ detalle_pedido_adicionales : "detallePedidoId"
+  adicionales ||--o{ detalle_pedido_adicionales : "adicionalId"
+  sucursales ||--o{ cajas : "sucursalId"
+  usuarios ||--o{ cajas : "usuarioId"
+  cajas ||--o{ eventos_caja : "cajaId"
+  usuarios ||--o{ eventos_caja : "usuarioId"
+  empresas ||--o{ movimientos_financieros : "empresaId"
+  sucursales ||--o{ movimientos_financieros : "sucursalId"
+  usuarios ||--o{ movimientos_financieros : "usuarioId"
+  pedidos |o--o{ movimientos_financieros : "pedidoId"
+  empresas ||--o{ consumos_empleados : "empresaId"
+  sucursales ||--o{ consumos_empleados : "sucursalId"
+  usuarios ||--o{ consumos_empleados : "usuarioId"
+  consumos_empleados ||--o{ consumo_empleado_items : "consumoEmpleadoId"
+  productos ||--o{ consumo_empleado_items : "productoId"
+  empresas |o--o{ auditorias : "empresaId"
+  usuarios |o--o{ auditorias : "usuarioId"
+  empresas ||--o{ pedidos_web : "empresaId"
+  pedidos |o--o{ pedidos_web : "pedidoId"
+  sucursales ||--o{ pedidos_web : "sucursalId"
+  usuarios |o--o{ pedidos_web : "repartidorId"
+```
