@@ -1,0 +1,53 @@
+name: Importar copia academica (una vez)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.repository == 'StivenR1128/PowerPOS-Supabase-Looker'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Verificar y extraer codigo revisado
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import zipfile, hashlib
+          root = Path.cwd().resolve()
+          archive = root / 'PowerPOS-Supabase-Looker.zip'
+          expected = '13b233c9e81517e3c00febb021a8329b29143c006aaded069c24f0c37b8f8afa'
+          if hashlib.sha256(archive.read_bytes()).hexdigest() != expected:
+              raise RuntimeError('El ZIP no coincide con el codigo revisado')
+          prefix = 'PowerPOS-Supabase-Looker/'
+          with zipfile.ZipFile(archive) as z:
+              for item in z.infolist():
+                  if item.is_dir():
+                      continue
+                  if not item.filename.startswith(prefix):
+                      raise RuntimeError('Prefijo inesperado')
+                  relative = PurePosixPath(item.filename[len(prefix):])
+                  if relative.is_absolute() or '..' in relative.parts:
+                      raise RuntimeError('Ruta insegura')
+                  if any(x in ('.git', 'node_modules', '.next') for x in relative.parts):
+                      raise RuntimeError('Archivo excluido')
+                  if relative.name.startswith('.env') and relative.name != '.env.example':
+                      raise RuntimeError('No se publican credenciales')
+                  target = root.joinpath(*relative.parts).resolve()
+                  if root not in target.parents:
+                      raise RuntimeError('Archivo fuera del repositorio')
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(z.read(item))
+          assert (root / 'api/prisma/schema.prisma').is_file()
+          assert (root / 'web/components/LookerDashboard.tsx').is_file()
+          assert (root / 'database/seed.sql').is_file()
+          PY
+      - name: Publicar archivos y retirar importacion temporal
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm PowerPOS-Supabase-Looker.zip .github/workflows/import-source.yml
+          git add .
+          git commit -m 'Publicar copia academica de PowerPOS con Supabase y Looker'
+          git push origin HEAD:main
